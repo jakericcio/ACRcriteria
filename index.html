@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACR Appropriateness Criteria Lookup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .results {
+            margin-top: 30px;
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .result-card h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .result-card .scenario {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .recommendations {
+            margin-top: 15px;
+        }
+
+        .recommendation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border-left: 3px solid transparent;
+        }
+
+        .recommendation-item.usually-appropriate {
+            border-left-color: #28a745;
+        }
+
+        .recommendation-item.may-be-appropriate {
+            border-left-color: #ffc107;
+        }
+
+        .recommendation-item.usually-not-appropriate {
+            border-left-color: #dc3545;
+        }
+
+        .modality {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rating-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .rating-badge.usually-appropriate {
+            background: #28a745;
+        }
+
+        .rating-badge.may-be-appropriate {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .rating-badge.usually-not-appropriate {
+            background: #dc3545;
+        }
+
+        .score {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .no-results h3 {
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .match-score {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .example-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .example-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #90caf9;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-btn:hover {
+            background: #bbdefb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 ACR Appropriateness Criteria Lookup</h1>
+            <p>Paste clinical notes or symptoms to find relevant imaging recommendations</p>
+        </div>
+
+        <div class="content">
+            <div class="input-section">
+                <label for="clinicalInput">Clinical Information:</label>
+                <textarea 
+                    id="clinicalInput" 
+                    placeholder="Enter clinical scenario, symptoms, or paste clinical notes here...&#10;&#10;Example: '45 year old male with acute right lower quadrant pain, fever, and elevated WBC'"></textarea>
+                
+                <div class="example-buttons">
+                    <button class="example-btn" onclick="loadExample('headache')">Example: Headache</button>
+                    <button class="example-btn" onclick="loadExample('chest-pain')">Example: Chest Pain</button>
+                    <button class="example-btn" onclick="loadExample('abdominal-pain')">Example: Abdominal Pain</button>
+                    <button class="example-btn" onclick="loadExample('back-pain')">Example: Back Pain</button>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-primary" onclick="searchCriteria()">Search Criteria</button>
+                    <button class="btn-secondary" onclick="clearInput()">Clear</button>
+                </div>
+            </div>
+
+            <div id="results" class="results"></div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Disclaimer:</strong> This tool is for educational purposes only. Always refer to the official ACR Appropriateness Criteria at acsearch.acr.org for complete, up-to-date recommendations. This is not a substitute for clinical judgment.</p>
+            <p style="margin-top: 10px;">Data based on ACR Appropriateness Criteria. Not affiliated with the American College of Radiology.</p>
+        </div>
+    </div>
+
+    <script>
+        // ACR Appropriateness Criteria Database (Sample - Common Scenarios)
+        const acrDatabase = [
+            {
+                topic: "Acute Appendicitis",
+                keywords: ["appendicitis", "right lower quadrant", "rlq", "mcburney", "abdominal pain right", "fever abdominal"],
+                scenario: "Right lower quadrant pain with suspected acute appendicitis",
+                recommendations: [
+                    { modality: "CT abdomen and pelvis with IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "US abdomen", rating: 7, category: "may-be-appropriate" },
+                    { modality: "MRI abdomen and pelvis without and with IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "CT abdomen and pelvis without IV contrast", rating: 5, category: "may-be-appropriate" },
+                    { modality: "X-ray abdomen", rating: 3, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Headache - Acute, No Trauma",
+                keywords: ["headache", "severe headache", "worst headache", "thunderclap", "sudden headache", "head pain"],
+                scenario: "Acute onset severe headache without history of trauma ('worst headache of life', thunderclap headache)",
+                recommendations: [
+                    { modality: "CT head without IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "CTA head and neck with IV contrast", rating: 7, category: "may-be-appropriate" },
+                    { modality: "MRI head without and with IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "MRA head without IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "X-ray head", rating: 1, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Acute Chest Pain - Low to Intermediate Risk for Coronary Artery Disease",
+                keywords: ["chest pain", "cardiac", "angina", "coronary", "chest pressure", "substernal"],
+                scenario: "Acute chest pain, suspected cardiac origin, low to intermediate pre-test probability for CAD",
+                recommendations: [
+                    { modality: "CTA chest with IV contrast (coronary arteries)", rating: 8, category: "usually-appropriate" },
+                    { modality: "Nuclear medicine myocardial perfusion stress test", rating: 7, category: "may-be-appropriate" },
+                    { modality: "Stress echocardiography", rating: 7, category: "may-be-appropriate" },
+                    { modality: "Cardiac MRI stress perfusion with IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "X-ray chest", rating: 5, category: "may-be-appropriate" }
+                ]
+            },
+            {
+                topic: "Pulmonary Embolism - Suspected",
+                keywords: ["pulmonary embolism", "pe", "dyspnea", "shortness of breath", "sob", "chest pain pleuritic", "hemoptysis", "dvt"],
+                scenario: "Suspected acute pulmonary embolism",
+                recommendations: [
+                    { modality: "CTA chest with IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "Nuclear medicine V/Q scan", rating: 6, category: "may-be-appropriate" },
+                    { modality: "US venous doppler lower extremity", rating: 5, category: "may-be-appropriate" },
+                    { modality: "X-ray chest", rating: 4, category: "usually-not-appropriate" },
+                    { modality: "CT chest without IV contrast", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Low Back Pain",
+                keywords: ["low back pain", "lower back pain", "lumbar pain", "back pain", "sciatica", "radiculopathy"],
+                scenario: "Low back pain without red flags, duration <6 weeks",
+                recommendations: [
+                    { modality: "Imaging not indicated initially", rating: 1, category: "usually-not-appropriate" },
+                    { modality: "X-ray lumbar spine", rating: 3, category: "usually-not-appropriate" },
+                    { modality: "MRI lumbar spine without IV contrast", rating: 3, category: "usually-not-appropriate" },
+                    { modality: "CT lumbar spine without IV contrast", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Low Back Pain - With Red Flags",
+                keywords: ["back pain fever", "back pain neurologic", "back pain bladder", "back pain bowel", "cauda equina", "back pain trauma", "back pain cancer"],
+                scenario: "Low back pain with red flags (fever, neurologic deficits, trauma, cancer history, cauda equina syndrome)",
+                recommendations: [
+                    { modality: "MRI lumbar spine without IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "MRI lumbar spine without and with IV contrast", rating: 7, category: "may-be-appropriate" },
+                    { modality: "CT lumbar spine without IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "X-ray lumbar spine", rating: 5, category: "may-be-appropriate" }
+                ]
+            },
+            {
+                topic: "Suspected Stroke - Acute (<24 hours)",
+                keywords: ["stroke", "cva", "cerebrovascular", "weakness", "hemiparesis", "aphasia", "facial droop", "slurred speech", "tia"],
+                scenario: "Acute focal neurologic deficit, suspected stroke or TIA",
+                recommendations: [
+                    { modality: "CT head without IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "CTA head with IV contrast", rating: 8, category: "usually-appropriate" },
+                    { modality: "MRI head without IV contrast", rating: 8, category: "usually-appropriate" },
+                    { modality: "MRA head without IV contrast", rating: 7, category: "may-be-appropriate" },
+                    { modality: "CT perfusion head", rating: 6, category: "may-be-appropriate" }
+                ]
+            },
+            {
+                topic: "Abdominal Pain - Right Upper Quadrant",
+                keywords: ["ruq", "right upper quadrant", "cholecystitis", "gallbladder", "biliary", "jaundice", "elevated bilirubin"],
+                scenario: "Right upper quadrant pain, suspected acute cholecystitis",
+                recommendations: [
+                    { modality: "US abdomen", rating: 9, category: "usually-appropriate" },
+                    { modality: "Nuclear medicine hepatobiliary scan (HIDA)", rating: 7, category: "may-be-appropriate" },
+                    { modality: "CT abdomen and pelvis with IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "MRI abdomen without and with IV contrast", rating: 5, category: "may-be-appropriate" },
+                    { modality: "X-ray abdomen", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Kidney Stones - Suspected",
+                keywords: ["kidney stone", "renal colic", "flank pain", "hematuria", "nephrolithiasis", "ureteral stone"],
+                scenario: "Acute flank pain, suspected ureterolithiasis (kidney stone)",
+                recommendations: [
+                    { modality: "CT abdomen and pelvis without IV contrast (stone protocol)", rating: 9, category: "usually-appropriate" },
+                    { modality: "US kidneys and bladder", rating: 6, category: "may-be-appropriate" },
+                    { modality: "X-ray abdomen (KUB)", rating: 4, category: "usually-not-appropriate" },
+                    { modality: "CT abdomen and pelvis with IV contrast", rating: 3, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Knee Pain - Acute Trauma",
+                keywords: ["knee pain", "knee injury", "knee trauma", "knee swelling", "mcl", "acl", "meniscus"],
+                scenario: "Acute knee pain following trauma",
+                recommendations: [
+                    { modality: "X-ray knee", rating: 9, category: "usually-appropriate" },
+                    { modality: "MRI knee without IV contrast", rating: 7, category: "may-be-appropriate" },
+                    { modality: "CT knee without IV contrast", rating: 4, category: "usually-not-appropriate" },
+                    { modality: "US knee", rating: 3, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Shoulder Pain - Acute Trauma",
+                keywords: ["shoulder pain", "shoulder injury", "shoulder trauma", "rotator cuff", "shoulder dislocation"],
+                scenario: "Acute shoulder pain following trauma",
+                recommendations: [
+                    { modality: "X-ray shoulder", rating: 9, category: "usually-appropriate" },
+                    { modality: "MRI shoulder without IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "CT shoulder without IV contrast", rating: 5, category: "may-be-appropriate" },
+                    { modality: "US shoulder", rating: 4, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Ankle Pain - Acute Trauma",
+                keywords: ["ankle pain", "ankle injury", "ankle trauma", "ankle sprain", "ankle swelling"],
+                scenario: "Acute ankle pain following trauma (Ottawa ankle rules positive)",
+                recommendations: [
+                    { modality: "X-ray ankle", rating: 9, category: "usually-appropriate" },
+                    { modality: "MRI ankle without IV contrast", rating: 5, category: "may-be-appropriate" },
+                    { modality: "CT ankle without IV contrast", rating: 4, category: "usually-not-appropriate" },
+                    { modality: "US ankle", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Dysphagia - Adults",
+                keywords: ["dysphagia", "difficulty swallowing", "odynophagia", "esophageal", "choking"],
+                scenario: "Dysphagia in adults",
+                recommendations: [
+                    { modality: "Fluoroscopy esophagram (barium swallow)", rating: 8, category: "usually-appropriate" },
+                    { modality: "CT neck with IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "CT chest with IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "X-ray chest", rating: 4, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Hematuria - Adults",
+                keywords: ["hematuria", "blood in urine", "gross hematuria", "microscopic hematuria"],
+                scenario: "Hematuria in adults without recent urinary tract infection",
+                recommendations: [
+                    { modality: "CT abdomen and pelvis without and with IV contrast (CTU)", rating: 8, category: "usually-appropriate" },
+                    { modality: "MRI abdomen and pelvis without and with IV contrast (MRU)", rating: 7, category: "may-be-appropriate" },
+                    { modality: "US kidneys and bladder", rating: 6, category: "may-be-appropriate" },
+                    { modality: "X-ray abdomen", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Pneumonia - Community Acquired, Uncomplicated",
+                keywords: ["pneumonia", "cough", "fever cough", "productive cough", "shortness of breath fever"],
+                scenario: "Suspected community-acquired pneumonia, uncomplicated",
+                recommendations: [
+                    { modality: "X-ray chest", rating: 9, category: "usually-appropriate" },
+                    { modality: "CT chest with IV contrast", rating: 4, category: "usually-not-appropriate" },
+                    { modality: "CT chest without IV contrast", rating: 3, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Sinusitis - Uncomplicated",
+                keywords: ["sinusitis", "sinus pain", "facial pain", "nasal congestion", "rhinosinusitis"],
+                scenario: "Uncomplicated acute rhinosinusitis",
+                recommendations: [
+                    { modality: "Imaging not indicated", rating: 1, category: "usually-not-appropriate" },
+                    { modality: "X-ray sinuses", rating: 2, category: "usually-not-appropriate" },
+                    { modality: "CT sinuses without IV contrast", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Sinusitis - Complicated or Persistent",
+                keywords: ["chronic sinusitis", "recurrent sinusitis", "sinusitis orbital", "sinusitis complications"],
+                scenario: "Chronic or recurrent sinusitis, or suspected complications",
+                recommendations: [
+                    { modality: "CT sinuses without IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "MRI head without and with IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "X-ray sinuses", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Breast Mass or Lump",
+                keywords: ["breast mass", "breast lump", "palpable breast", "breast nodule"],
+                scenario: "Palpable breast mass in women ≥30 years",
+                recommendations: [
+                    { modality: "Mammography diagnostic", rating: 9, category: "usually-appropriate" },
+                    { modality: "US breast", rating: 9, category: "usually-appropriate" },
+                    { modality: "MRI breast without and with IV contrast", rating: 4, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Cervical Spine Trauma",
+                keywords: ["neck pain trauma", "cervical spine injury", "c-spine trauma", "neck injury"],
+                scenario: "Blunt trauma with neck pain or altered mental status (high-risk mechanism)",
+                recommendations: [
+                    { modality: "CT cervical spine without IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "X-ray cervical spine", rating: 6, category: "may-be-appropriate" },
+                    { modality: "MRI cervical spine without IV contrast", rating: 5, category: "may-be-appropriate" }
+                ]
+            },
+            {
+                topic: "Blunt Abdominal Trauma",
+                keywords: ["abdominal trauma", "blunt trauma abdomen", "trauma hypotensive", "abdominal injury"],
+                scenario: "Blunt abdominal trauma, hemodynamically stable",
+                recommendations: [
+                    { modality: "CT abdomen and pelvis with IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "US abdomen (FAST)", rating: 7, category: "may-be-appropriate" },
+                    { modality: "X-ray abdomen", rating: 3, category: "usually-not-appropriate" },
+                    { modality: "CT abdomen and pelvis without IV contrast", rating: 3, category: "usually-not-appropriate" }
+                ]
+            }
+        ];
+
+        // Example cases
+        const examples = {
+            'headache': "45-year-old female with sudden onset severe headache, 'worst headache of my life', started 2 hours ago. No focal neurologic deficits. No history of migraines.",
+            'chest-pain': "58-year-old male with substernal chest pressure radiating to left arm, started 30 minutes ago. Diaphoretic. No prior cardiac history. Low-intermediate risk for CAD.",
+            'abdominal-pain': "32-year-old male with 24 hours of progressive right lower quadrant pain, anorexia, fever 38.5°C, WBC 15,000. McBurney's point tenderness.",
+            'back-pain': "67-year-old female with 3 days of lower back pain with bilateral leg weakness and urinary retention. History of breast cancer."
+        };
+
+        function loadExample(exampleType) {
+            document.getElementById('clinicalInput').value = examples[exampleType];
+        }
+
+        function clearInput() {
+            document.getElementById('clinicalInput').value = '';
+            document.getElementById('results').innerHTML = '';
+        }
+
+        function searchCriteria() {
+            const input = document.getElementById('clinicalInput').value.toLowerCase().trim();
+            
+            if (!input) {
+                alert('Please enter clinical information first.');
+                return;
+            }
+
+            // Score each criterion based on keyword matching
+            const scoredResults = acrDatabase.map(criterion => {
+                let score = 0;
+                const matchedKeywords = [];
+
+                criterion.keywords.forEach(keyword => {
+                    if (input.includes(keyword.toLowerCase())) {
+                        score += 10;
+                        matchedKeywords.push(keyword);
+                    }
+                });
+
+                // Bonus for topic match
+                if (input.includes(criterion.topic.toLowerCase())) {
+                    score += 20;
+                }
+
+                return {
+                    ...criterion,
+                    score,
+                    matchedKeywords
+                };
+            });
+
+            // Filter and sort results
+            const matches = scoredResults
+                .filter(result => result.score > 0)
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 3); // Top 3 matches
+
+            displayResults(matches);
+        }
+
+        function displayResults(matches) {
+            const resultsDiv = document.getElementById('results');
+
+            if (matches.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div class="no-results">
+                        <h3>No matching criteria found</h3>
+                        <p>Try using different clinical terms or check the official ACR Appropriateness Criteria at acsearch.acr.org</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<h2 style="margin-bottom: 20px; color: #1e3c72;">Matching Criteria:</h2>';
+
+            matches.forEach(match => {
+                html += `
+                    <div class="result-card">
+                        <h3>
+                            ${match.topic}
+                            <span class="match-score">Match: ${match.score}%</span>
+                        </h3>
+                        <div class="scenario">
+                            <strong>Clinical Scenario:</strong> ${match.scenario}
+                        </div>
+                        <div class="recommendations">
+                            <strong style="display: block; margin-bottom: 10px;">Imaging Recommendations:</strong>
+                `;
+
+                match.recommendations.forEach(rec => {
+                    const ratingText = rec.rating >= 7 ? 'Usually Appropriate' : 
+                                     rec.rating >= 4 ? 'May Be Appropriate' : 
+                                     'Usually Not Appropriate';
+                    
+                    html += `
+                        <div class="recommendation-item ${rec.category}">
+                            <span class="modality">${rec.modality}</span>
+                            <div class="rating">
+                                <span class="score">Rating: ${rec.rating}</span>
+                                <span class="rating-badge ${rec.category}">${ratingText}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // Allow Enter key to search (with Shift+Enter for new line)
+        document.getElementById('clinicalInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                searchCriteria();
+            }
+        });
+    </script>
+</body>
+</html>
