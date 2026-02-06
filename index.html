@@ -515,6 +515,205 @@
                     { modality: "X-ray abdomen", rating: 3, category: "usually-not-appropriate" },
                     { modality: "CT abdomen and pelvis without IV contrast", rating: 3, category: "usually-not-appropriate" }
                 ]
+            },
+            {
+                topic: "Acute Mesenteric Ischemia",
+                keywords: ["mesenteric ischemia", "abdominal pain out of proportion", "pain out of proportion", "mesenteric", "bowel ischemia", "acute abdomen elderly", "atrial fibrillation abdominal pain", "embolic"],
+                scenario: "Suspected acute mesenteric ischemia (abdominal pain out of proportion to exam, risk factors present)",
+                recommendations: [
+                    { modality: "CTA abdomen and pelvis with IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "CT abdomen and pelvis with IV contrast", rating: 8, category: "usually-appropriate" },
+                    { modality: "MRA abdomen without and with IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "US doppler mesenteric vessels", rating: 4, category: "usually-not-appropriate" },
+                    { modality: "X-ray abdomen", rating: 3, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Diverticulitis - Suspected",
+                keywords: ["diverticulitis", "left lower quadrant", "llq", "sigmoid pain", "diverticular"],
+                scenario: "Left lower quadrant pain with suspected acute diverticulitis",
+                recommendations: [
+                    { modality: "CT abdomen and pelvis with IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "CT abdomen and pelvis without IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "US abdomen", rating: 5, category: "may-be-appropriate" },
+                    { modality: "MRI abdomen and pelvis without and with IV contrast", rating: 5, category: "may-be-appropriate" },
+                    { modality: "X-ray abdomen", rating: 3, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Small Bowel Obstruction - Suspected",
+                keywords: ["bowel obstruction", "sbo", "small bowel obstruction", "abdominal distention", "nausea vomiting abdominal", "constipation abdominal pain"],
+                scenario: "Suspected small bowel obstruction",
+                recommendations: [
+                    { modality: "CT abdomen and pelvis with IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "X-ray abdomen", rating: 7, category: "may-be-appropriate" },
+                    { modality: "CT abdomen and pelvis without IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "Fluoroscopy small bowel follow through", rating: 4, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Aortic Dissection - Suspected",
+                keywords: ["aortic dissection", "chest pain back", "tearing chest pain", "ripping chest pain", "back pain chest", "dissection", "marfan"],
+                scenario: "Suspected acute aortic dissection (chest pain radiating to back, tearing/ripping quality)",
+                recommendations: [
+                    { modality: "CTA chest with IV contrast", rating: 9, category: "usually-appropriate" },
+                    { modality: "MRA chest without and with IV contrast", rating: 8, category: "usually-appropriate" },
+                    { modality: "Transesophageal echocardiography", rating: 7, category: "may-be-appropriate" },
+                    { modality: "X-ray chest", rating: 5, category: "may-be-appropriate" },
+                    { modality: "CT chest without IV contrast", rating: 3, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Deep Vein Thrombosis - Lower Extremity",
+                keywords: ["dvt", "deep vein thrombosis", "leg swelling", "calf pain", "lower extremity swelling", "leg pain swelling"],
+                scenario: "Suspected lower extremity deep vein thrombosis",
+                recommendations: [
+                    { modality: "US venous doppler lower extremity", rating: 9, category: "usually-appropriate" },
+                    { modality: "Venography lower extremity", rating: 4, category: "usually-not-appropriate" },
+                    { modality: "MR venography lower extremity", rating: 3, category: "usually-not-appropriate" },
+                    { modality: "CT venography lower extremity", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Adnexal Mass - Ovarian",
+                keywords: ["adnexal mass", "ovarian mass", "pelvic mass", "ovarian cyst", "adnexal"],
+                scenario: "Pelvic or adnexal mass detected on physical exam or initial imaging",
+                recommendations: [
+                    { modality: "US pelvis transvaginal", rating: 9, category: "usually-appropriate" },
+                    { modality: "MRI pelvis without and with IV contrast", rating: 7, category: "may-be-appropriate" },
+                    { modality: "CT abdomen and pelvis with IV contrast", rating: 5, category: "may-be-appropriate" },
+                    { modality: "US pelvis transabdominal", rating: 5, category: "may-be-appropriate" }
+                ]
+            },
+            {
+                topic: "Liver Lesion - Characterization",
+                keywords: ["liver lesion", "liver mass", "hepatic lesion", "hepatic mass", "liver nodule"],
+                scenario: "Incidentally detected liver lesion requiring characterization",
+                recommendations: [
+                    { modality: "MRI abdomen without and with IV contrast", rating: 8, category: "usually-appropriate" },
+                    { modality: "CT abdomen multiphase with IV contrast", rating: 8, category: "usually-appropriate" },
+                    { modality: "US abdomen with contrast", rating: 7, category: "may-be-appropriate" },
+                    { modality: "US abdomen", rating: 6, category: "may-be-appropriate" }
+                ]
+            },
+            {
+                topic: "Pancreatic Mass - Suspected",
+                keywords: ["pancreatic mass", "pancreatic cancer", "jaundice weight loss", "painless jaundice", "pancreatic lesion"],
+                scenario: "Suspected pancreatic mass (jaundice, weight loss, abdominal pain)",
+                recommendations: [
+                    { modality: "CT abdomen and pelvis with IV contrast (pancreatic protocol)", rating: 9, category: "usually-appropriate" },
+                    { modality: "MRI abdomen without and with IV contrast (MRCP)", rating: 8, category: "usually-appropriate" },
+                    { modality: "US abdomen", rating: 6, category: "may-be-appropriate" },
+                    { modality: "Endoscopic ultrasound", rating: 7, category: "may-be-appropriate" }
+                ]
+            },
+            {
+                topic: "Thyroid Nodule",
+                keywords: ["thyroid nodule", "thyroid mass", "neck mass thyroid", "thyroid lump"],
+                scenario: "Palpable thyroid nodule",
+                recommendations: [
+                    { modality: "US thyroid", rating: 9, category: "usually-appropriate" },
+                    { modality: "Nuclear medicine thyroid uptake and scan", rating: 5, category: "may-be-appropriate" },
+                    { modality: "CT neck with IV contrast", rating: 3, category: "usually-not-appropriate" },
+                    { modality: "MRI neck without and with IV contrast", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Bone Metastases - Screening",
+                keywords: ["bone metastases", "bone mets", "skeletal metastases", "bone pain cancer"],
+                scenario: "Known malignancy, evaluating for osseous metastatic disease",
+                recommendations: [
+                    { modality: "Nuclear medicine bone scan", rating: 8, category: "usually-appropriate" },
+                    { modality: "PET/CT FDG whole body", rating: 7, category: "may-be-appropriate" },
+                    { modality: "MRI whole body", rating: 6, category: "may-be-appropriate" },
+                    { modality: "X-ray skeletal survey", rating: 4, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Carotid Artery Stenosis - Screening",
+                keywords: ["carotid stenosis", "carotid artery", "bruit", "carotid disease", "tia carotid"],
+                scenario: "Asymptomatic carotid bruit or screening for carotid stenosis",
+                recommendations: [
+                    { modality: "US doppler carotid arteries", rating: 9, category: "usually-appropriate" },
+                    { modality: "CTA neck with IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "MRA neck without IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "Catheter angiography carotid", rating: 3, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Abdominal Aortic Aneurysm - Screening",
+                keywords: ["aaa", "abdominal aortic aneurysm", "aortic aneurysm", "pulsatile mass"],
+                scenario: "Screening or suspected abdominal aortic aneurysm",
+                recommendations: [
+                    { modality: "US abdomen (aorta)", rating: 9, category: "usually-appropriate" },
+                    { modality: "CTA abdomen and pelvis with IV contrast", rating: 7, category: "may-be-appropriate" },
+                    { modality: "MRA abdomen without IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "X-ray abdomen", rating: 3, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Pelvic Pain - Female, Acute",
+                keywords: ["pelvic pain", "lower abdominal pain female", "pelvic pain female"],
+                scenario: "Acute pelvic pain in female of reproductive age",
+                recommendations: [
+                    { modality: "US pelvis transvaginal", rating: 9, category: "usually-appropriate" },
+                    { modality: "CT abdomen and pelvis with IV contrast", rating: 7, category: "may-be-appropriate" },
+                    { modality: "MRI pelvis without and with IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "X-ray abdomen", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Rib Fracture - Suspected",
+                keywords: ["rib pain", "rib fracture", "chest wall pain", "rib injury trauma"],
+                scenario: "Suspected rib fracture following trauma",
+                recommendations: [
+                    { modality: "X-ray ribs", rating: 7, category: "may-be-appropriate" },
+                    { modality: "CT chest without IV contrast", rating: 6, category: "may-be-appropriate" },
+                    { modality: "X-ray chest", rating: 5, category: "may-be-appropriate" },
+                    { modality: "US ribs", rating: 4, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Vertigo - Acute",
+                keywords: ["vertigo", "dizziness", "spinning", "nystagmus", "balance problem"],
+                scenario: "Acute vertigo without focal neurologic deficits",
+                recommendations: [
+                    { modality: "Imaging not indicated initially", rating: 1, category: "usually-not-appropriate" },
+                    { modality: "MRI head without IV contrast", rating: 4, category: "usually-not-appropriate" },
+                    { modality: "CT head without IV contrast", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Testicular Pain - Acute",
+                keywords: ["testicular pain", "testicle pain", "scrotal pain", "testicular torsion", "scrotal swelling"],
+                scenario: "Acute testicular pain, suspected torsion or other acute pathology",
+                recommendations: [
+                    { modality: "US scrotum with doppler", rating: 9, category: "usually-appropriate" },
+                    { modality: "Nuclear medicine testicular scan", rating: 4, category: "usually-not-appropriate" },
+                    { modality: "MRI scrotum", rating: 3, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Wrist Pain - Acute Trauma",
+                keywords: ["wrist pain", "wrist injury", "wrist fracture", "fall on outstretched hand", "foosh"],
+                scenario: "Acute wrist pain following trauma",
+                recommendations: [
+                    { modality: "X-ray wrist", rating: 9, category: "usually-appropriate" },
+                    { modality: "CT wrist without IV contrast", rating: 5, category: "may-be-appropriate" },
+                    { modality: "MRI wrist without IV contrast", rating: 4, category: "usually-not-appropriate" },
+                    { modality: "US wrist", rating: 2, category: "usually-not-appropriate" }
+                ]
+            },
+            {
+                topic: "Seizure - First Time, Adults",
+                keywords: ["seizure", "first seizure", "new onset seizure", "convulsion"],
+                scenario: "First-time seizure in adult, no known seizure disorder",
+                recommendations: [
+                    { modality: "MRI head without and with IV contrast", rating: 8, category: "usually-appropriate" },
+                    { modality: "CT head without IV contrast", rating: 7, category: "may-be-appropriate" },
+                    { modality: "MRI head without IV contrast", rating: 7, category: "may-be-appropriate" },
+                    { modality: "X-ray head", rating: 1, category: "usually-not-appropriate" }
+                ]
             }
         ];
 
